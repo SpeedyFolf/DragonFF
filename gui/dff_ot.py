@@ -75,21 +75,21 @@ class EXPORT_OT_dff(bpy.types.Operator, ExportHelper):
     preserve_positions  : bpy.props.BoolProperty(
         name            = "Preserve Positions",
         description     = "Don't set object positions to (0,0,0)",
-        default         = True
+        default         = False
     )
 
     preserve_rotations  : bpy.props.BoolProperty(
         name            = "Preserve Rotations",
         description     = "Don't set object rotations to (0,0,0)",
-        default         = True
+        default         = False
     )
 
     export_version      : bpy.props.EnumProperty(
         items =
         (
-            ('0x33002', "GTA 3 (v3.3.0.2)", "Grand Theft Auto 3 PC (v3.3.0.2)"),
-            ('0x34003', "GTA VC (v3.4.0.3)", "Grand Theft Auto VC PC (v3.4.0.3)"),
             ('0x36003', "GTA SA (v3.6.0.3)", "Grand Theft Auto SA PC (v3.6.0.3)"),
+            ('0x34003', "GTA VC (v3.4.0.3)", "Grand Theft Auto VC PC (v3.4.0.3)"),
+            ('0x33002', "GTA 3 (v3.3.0.2)", "Grand Theft Auto 3 PC (v3.3.0.2)"),
             ('custom', "Custom", "Custom RW Version")
         ),
         name = "Version Export"
@@ -229,8 +229,6 @@ class EXPORT_OT_dff(bpy.types.Operator, ExportHelper):
             self.only_selected = False
             self.export_coll = False
             self.apply_coll_trans = False
-            self.preserve_positions = False
-            self.preserve_rotations = False
 
         if 'dragonff_imported_version' in context.scene:
             self.export_version = context.scene['dragonff_imported_version']
@@ -322,6 +320,12 @@ class IMPORT_OT_dff(bpy.types.Operator, ImportHelper):
         default     = False
     )
 
+    hide_damage_parts   : bpy.props.BoolProperty(
+        name            = "Hide Damage Parts",
+        description     = "Hide objects ending with '_dam'",
+        default         = False
+    )
+
     group_materials :  bpy.props.BoolProperty(
         name        = "Group Similar Materials",
         default     = True
@@ -339,7 +343,7 @@ class IMPORT_OT_dff(bpy.types.Operator, ImportHelper):
 
     import_normals  :  bpy.props.BoolProperty(
         name        = "Import Custom Normals",
-        default     = False
+        default     = True
     )
 
     clumps_to_dm    :  bpy.props.BoolProperty(
@@ -387,6 +391,7 @@ class IMPORT_OT_dff(bpy.types.Operator, ImportHelper):
         box_dff.prop(self, "remove_doubles")
         box_dff.prop(self, "create_backfaces")
         box_dff.prop(self, "import_normals")
+        box_dff.prop(self, "hide_damage_parts")
         box_dff.prop(self, "group_materials")
         box_dff.prop(self, "materials_naming")
         box_dff.prop(self, "clumps_to_dm")
@@ -459,6 +464,7 @@ class IMPORT_OT_dff(bpy.types.Operator, ImportHelper):
                         'import_normals'   : self.import_normals,
                         'materials_naming' : self.materials_naming,
                         'clumps_to_dm'     : self.clumps_to_dm,
+                        'hide_damage_parts': self.hide_damage_parts,
                     }
                 )
 
