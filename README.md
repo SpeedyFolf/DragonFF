@@ -39,7 +39,7 @@ The following is a list of supported features by the addon
   - [X] Reflection Material
   - [X] Breakable
   - [X] Pipeline Set
-  - [X] Nigt Vertex Color
+  - [X] Night Vertex Color
   - [X] 2D Effects
 
 ## Installation
